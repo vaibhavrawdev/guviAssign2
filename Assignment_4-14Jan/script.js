@@ -2,14 +2,7 @@ var request = new XMLHttpRequest();
 request.open('GET', 'https://restcountries.eu/rest/v2/all', true);
 request.send();
 request.onload = function () {
-	var data = JSON.parse(this.response);
-	
-	//Adding all objects into an array.
-	
-	var datalist = [];
-	for(i in data){
-		datalist.push(data[i]);
-	}
+	var datalist = JSON.parse(this.response);
 	
 	//Countries in Asia region
 	
@@ -43,9 +36,12 @@ request.onload = function () {
 
 	//Countries which use USD as currency.
 	const currencyUSD = datalist.filter(elem => {
-		if(elem.currencies[0].name === "United States dollar"){
-			return true;
-		}
+		for(currency in elem.currencies){
+
+			if(elem.currencies[currency].code === "USD"){
+				return true;
+			}
+		} 
 	});
 	console.log(currencyUSD);
 }
